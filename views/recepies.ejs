@@ -1,0 +1,149 @@
+<%- include('./partials/header'); -%>
+<div class="container above-header">
+    <div class="row justify-content-between">
+        <div class="col-sm-8">
+            <h3 class="text-center">Recepie</h3>
+        </div>
+        <div class="col-sm-4 text-center">
+            <button type="button"  button-type="new" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editRecepie">
+                New
+              </button>
+        </div>
+    </div>
+
+    
+    
+    <ul class="list-group above-header">
+
+        <% recepies.forEach(function(recepie){ %>
+            <li id="" class="list-group-item d-flex justify-content-between align-items-center"> <a href="/recepies/<%= recepie._id %>"> <%= recepie.name %> </a> <div class"div"> <a class="editButton" button-type="edit" href="" data-bs-toggle="modal" data-bs-target="#editRecepie" data-value="<%= recepie.name %>" data-id="<%= recepie._id %>"><i class="fa fa-pencil"></i></a><a id="<%= recepie._id %>" class="del" href=""><i class="fa fa-trash"></i></a></div>  </li> 
+            
+        <% }) %>
+        
+      </ul>  
+</div>
+
+
+
+  <div class="modal" id="editRecepie"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edditRecepie" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Edit Recepie</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            
+            <form id="editForm">
+                <div class="form-group">
+                  <label for="">Recepie Name</label>
+                  <input type="text" class="form-control" name="name" id="editName" aria-describedby="helpId" placeholder="">
+                </div>
+                <div class="form-group">
+                  <label for="">Recepie Type</label>
+                  <select name="type" id="type" class="form-select" multiple aria-label="multiple select example" aria-describedby="helpId">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="">Procedure</label>
+                  <textarea class="form-control" name="procedure" id="procedure" rows="10"></textarea>
+                </div>
+                <div class="form-group" style="display:none">
+                  <label for="">Recepie Id</label>
+                  <input type="text" class="form-control" name="id" id="editId" aria-describedby="helpId" placeholder="">
+                </div>
+                <button id="editSubmit"  class="btn btn-danger">Submit</button>
+            
+            </form>
+
+
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function(){  
+   
+
+      $('.del').click(function(){
+        $.ajax({
+            url: '/recepies/'+this.id, 
+            type:'DELETE', 
+            success: function(result) {
+                console.log("success"); 
+            }
+        }) 
+
+      }); 
+     /* $('.editButton').click(function(){
+        var value = $(this).parent().parent().text(); 
+        console.log(value); 
+        var nameInput = $('#name'); 
+        console.log(nameInput); 
+        document.getElementById('name').value = value;  
+      })*/
+
+      $('#editRecepie').on('show.bs.modal', function(e){
+        console.log($(e.relatedTarget).attr('button-type')); 
+
+       if ($(e.relatedTarget).attr('button-type')=='edit'){
+        var val = $(e.relatedTarget).attr('data-value'); 
+        var id = $(e.relatedTarget).attr('data-id');
+        $('#editRecepie #editName').val(val);  
+        $('#editRecepie #editId').val(id);
+       } 
+         
+      }); 
+
+      $("#editSubmit").click(function(){
+        var name = $("#editName").val();
+        var id= $('#editId').val(); 
+        var type= $('#type').val(); 
+      // var procedure=$('#procedure').val(); 
+        var procedure = tinymce.activeEditor.getContent();
+
+        //$('type').val('1,2'); 
+        alert('type value is --->> ' + procedure); 
+        if(id != undefined || id != ''){
+          $.post("/recepies/" + id, {name: name, type: type, procedure: procedure}, function(result){
+            //   alert("Response " + result); 
+              })
+                .fail(function() {
+                  alert( "error" );
+                });
+        }
+        else
+        {
+          $.post("/recepies", {name: name}, function(result){
+            //   alert("Response " + result); 
+              })
+                .fail(function() {
+                  alert( "error" );
+                });
+        }
+        
+      });
+
+      
+
+}); 
+tinymce.init({
+  selector: 'textarea',
+  plugins: 'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tinycomments tinymcespellchecker',
+  toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter pageembed permanentpen table',
+  toolbar_mode: 'floating',
+  tinycomments_mode: 'embedded',
+  tinycomments_author: 'Author name',
+});
+</script>
+
+
+
+
+<%- include('./partials/footer'); -%>
