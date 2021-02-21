@@ -58,6 +58,7 @@ router.post('/', function(req, res){
 }); 
 
 router.delete("/:id", function(req, res){
+
     Recepies.findByIdAndRemove(req.params.id, function(err, deletedIngredient){
       if(err){
          res.send("error deleting the ingredient"); 
@@ -71,6 +72,7 @@ router.delete("/:id", function(req, res){
     })
 
     router.post("/:id", function(req, res){
+        console.log(req.body);
         Recepies.findByIdAndUpdate(req.params.id, req.body, function(err, updatedIgredient){
             if(err){
                console.log("error", "Error updating the ingredient: " + err); 

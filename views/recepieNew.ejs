@@ -5,13 +5,16 @@
 
     <form id="editForm" method="POST" action="/recepies/">
         <div class="form-group">
-          <label for="">Recepie Name</label>
-          <input type="text" class="form-control" name="name" id="editName" aria-describedby="helpId" placeholder="" value="<%= recepie.name %>">
+          <label for="editName">Recepie Name</label>
+          <input required type="text" class="form-control" name="name" id="editName" aria-describedby="helpId" placeholder="" value="<%= recepie.name %>">
+          <div class="valid-feedback">
+            Recepie name is required !!
+          </div>
         </div>
       
         <div class="form-group">
           <label for="">Recepie Type</label>
-          <select name="type" id="type" class="form-select" multiple aria-label="multiple select example" aria-describedby="helpId">
+          <select required name="type" id="type" class="custom-select d-flex" multiple aria-label="multiple select example" aria-describedby="helpId">
             <% var options = ['Breakfast', 'Entry', 'Smoothie', 'Salad', 'Desert'];  %>
             <% for(var i = 0; i < options.length; i++){ %>
 
@@ -27,7 +30,7 @@
         </div>
         <div class="form-group">
           <label for="">Procedure</label>
-          <textarea class="form-control" name="procedure" id="procedure" rows="10"><%= recepie.procedure %></textarea>
+          <textarea required class="form-control" name="procedure" id="procedure" rows="10"><%= recepie.procedure %></textarea>
         </div>
    
         <div class="row justify-content-center">
@@ -35,7 +38,7 @@
                 <button type="submit" id="newSubmit"  class="btn btn-danger">Save</button>
             </div>
             <div class="col text-center">
-                <button id="cancelSubmit"  class="btn btn-danger">Cancel</button>
+                <a href="" id="cancelSubmit"  class="btn btn-danger">Cancel</a>
             </div>
             
         </div>
@@ -55,8 +58,20 @@
     tinycomments_author: 'Author name',
   });
 
+  $("#cancelSubmit").click(function(event){
+    event.preventDefault(); 
+    window.history.back(); 
+  })
  
+  var frm = $("#editForm"); 
 
+  frm.submit(function(event){
+    if (frm.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        frm.classList.add('was-validated');
+  })
 
 
 </script>
