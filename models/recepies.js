@@ -11,8 +11,9 @@ var recepie = new Schema({
    type: [String], 
    procedure: String, 
    ingredients:[{
-    type: Schema.Types.ObjectId,
-    ref: 'Ingredient'
+    name: String, 
+    qty: Number, 
+    measure: String
    }] 
 
 });

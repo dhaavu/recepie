@@ -56,3 +56,7 @@ a:hover{
 .search{
     margin: 20px auto; 
 }
+
+option:checked{
+    background:yellow !important; 
+}
