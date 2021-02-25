@@ -23,6 +23,22 @@ router.get('/', function(req, res){
 
 }); 
 
+router.get('/:id/newIngredient', function(req, res){
+    Recepies.findById( req.params.id,  function(err, recepie){
+        if(err){
+            console.log(err);
+            res.send("Error: " +  err); 
+        } else {
+          
+           res.render("newRecepieIngredient",{recepie: recepie});
+        }
+     });
+
+    
+
+}); 
+
+
 router.get('/:id', function(req, res){
     Recepies.findById( req.params.id,  function(err, recepie){
         if(err){

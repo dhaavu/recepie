@@ -5,7 +5,7 @@
             <h3 class="text-center">Ingredients</h3>
         </div>
         <div class="col-sm-4 text-center">
-            <button type="button"  button-type="new" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#editIngredient">
+            <button type="button"  button-type="new" class="btn btn-danger" data-toggle="modal" data-target="#editIngredient">
                 New
               </button>
         </div>
@@ -25,12 +25,12 @@
 
 
 
-  <div class="modal" id="editIngredient"  data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="newIngredient" aria-hidden="true">
+  <div class="modal" id="editIngredient"  data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="newIngredient" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="staticBackdropLabel">Edit Ingredient</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             
@@ -95,16 +95,17 @@
             //   alert("Response " + result); 
               })
                 .fail(function() {
-                  alert( "error" );
+                  console.log( "error" );
                 });
         }
         else
         {
+          console.log('Posting:' + name); 
           $.post("/ingredients", {name: name}, function(result){
-            //   alert("Response " + result); 
+               console.log("Response " + result); 
               })
                 .fail(function() {
-                  alert( "error" );
+                  console.log( "error" );
                 });
         }
         

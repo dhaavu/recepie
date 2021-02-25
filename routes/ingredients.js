@@ -5,6 +5,24 @@ middleware = require("../middleware"),
 Ingredients = require("../models/ingredients"); 
 
 
+router.get('/api/:searchtxt', function(req, res){
+
+console.log('req.params.searchtxt:' + req.params.searchtxt)
+var searchStr = '/'+ req.params.searchtxt + '/'; 
+    Ingredients.find( {"name": {'$regex':req.params.searchtxt, $options:'i' }},{name:1, _id:0} ,  function(err, allIngredients){
+        if(err){
+            console.log(err);
+            res.send("Error: " +  err); 
+        } else {
+            
+           res.send(allIngredients);
+        }
+     });
+
+    
+
+}); 
+
 router.get('/', function(req, res){
     Ingredients.find( {},  function(err, allIngredients){
         if(err){
